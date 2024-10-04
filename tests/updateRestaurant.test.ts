@@ -5,6 +5,10 @@ import type { UpdateRestaurantRequest } from "../src/dtos/UpdateRestaurantReques
 import { restaurantRepositoryMock } from "./mocks";
 
 describe("Update restaurant use case", () => {
+	afterEach(() => {
+		jest.clearAllMocks();
+	});
+	
 	test("should except when has invalid schedule", async () => {
 		const input: UpdateRestaurantRequest = {
 			schedules: [{ day: ScheduleDay.MONDAY, begin: "08:00", end: "08:14" }],
