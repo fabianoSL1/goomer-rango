@@ -19,15 +19,13 @@ export class Schedule {
 		this.end = end;
 	}
 
-	checkInterval(begin: string, end: string) {
+	isValidInterval() {
+
 		const _toMinutes = (time: string) => {
 			const [hours, minutes] = time.split(":");
 			return Number.parseInt(minutes) + Number.parseInt(hours) * 60;
 		};
 
-		if (_toMinutes(end) - _toMinutes(begin) >= 15) {
-            throw Error("invalid");
-        }
+		return _toMinutes(this.end) - _toMinutes(this.begin) >= 15;
 	}
-
 }
