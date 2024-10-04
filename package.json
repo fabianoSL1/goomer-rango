@@ -8,6 +8,7 @@
     "hono": "^4.6.3"
   },
   "devDependencies": {
+    "@biomejs/biome": "^1.9.3",
     "@types/node": "^20.11.17",
     "tsx": "^4.7.1"
   }
