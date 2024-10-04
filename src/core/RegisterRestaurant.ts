@@ -10,7 +10,7 @@ export class RegisterRestaurant {
 		this.restaurantRepository = restaurantRepository;
 	}
 
-	async execute(request: CreateRestaurantRequest) {
+	async execute(request: CreateRestaurantRequest): Promise<Restaurant> {
 		const schedules = request.schedules.map((item) => {
 			const schedule = new Schedule(item.day, item.begin, item.end);
 
@@ -30,6 +30,6 @@ export class RegisterRestaurant {
 			schedules,
 		);
 
-		await this.restaurantRepository.save(restaurant);
+		return await this.restaurantRepository.save(restaurant);
 	}
 }
