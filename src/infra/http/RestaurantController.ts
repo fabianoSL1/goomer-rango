@@ -6,9 +6,10 @@ import { GetRestaurant } from "../../core/GetRestaurant";
 import { UpdateRestaurant } from "../../core/UpdateRestaurant";
 import { RegisterRestaurant } from "../../core/RegisterRestaurant";
 import { DestroyRestaurant } from "../../core/destroyRestaurant";
+import { zValidator } from "@hono/zod-validator";
+import { RestaurantSchema } from "./schemas";
 
 const restaurantController = new Hono();
-
 const restaurantRepository = new RestaurantRepositoryPostgres(new Pool());
 
 restaurantController.get("/", async (ctx) => {
@@ -26,20 +27,33 @@ restaurantController.get("/:id", async (ctx) => {
 	return ctx.json(restaurant);
 });
 
-restaurantController.patch("/:id", async (ctx) => {
-	const id = ctx.req.param("id");
-	const updateRestaurant = new UpdateRestaurant(restaurantRepository);
-	const restaurant = await updateRestaurant.execute(id, await ctx.req.json());
+restaurantController.patch(
+	"/:id",
+	zValidator("json", RestaurantSchema.partial()),
+	async (ctx) => {
+		const id = ctx.req.param("id");
+		const body = ctx.req.valid("json");
 
-	return ctx.json(restaurant);
-});
+		const updateRestaurant = new UpdateRestaurant(restaurantRepository);
 
-restaurantController.post("/", async (ctx) => {
-	const registerRestaurant = new RegisterRestaurant(restaurantRepository);
-	const restaurant = await registerRestaurant.execute(await ctx.req.json());
+		const restaurant = await updateRestaurant.execute(id, body);
 
-	return ctx.json(restaurant);
-});
+		return ctx.json(restaurant);
+	},
+);
+
+restaurantController.post(
+	"/",
+	zValidator("json", RestaurantSchema.strict()),
+	async (ctx) => {
+		const body = ctx.req.valid("json");
+
+		const registerRestaurant = new RegisterRestaurant(restaurantRepository);
+		const restaurant = await registerRestaurant.execute(body);
+
+		return ctx.json(restaurant);
+	},
+);
 
 restaurantController.delete("/:id", async (ctx) => {
 	const id = ctx.req.param("id");

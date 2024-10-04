@@ -6,8 +6,10 @@
   },
   "dependencies": {
     "@hono/node-server": "^1.13.1",
+    "@hono/zod-validator": "^0.3.0",
     "hono": "^4.6.3",
-    "pg": "^8.13.0"
+    "pg": "^8.13.0",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.3",
