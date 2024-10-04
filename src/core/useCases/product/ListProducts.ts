@@ -8,7 +8,7 @@ export class ListProducts {
 		this.productRepository = productRepository;
 	}
 
-	async execute(restaurantId: string): Promise<Product[]> {
-		return await this.productRepository.list(restaurantId);
+	async execute(productId: string): Promise<Product[]> {
+		return await this.productRepository.list(productId);
 	}
 }
