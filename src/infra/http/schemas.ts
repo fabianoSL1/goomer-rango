@@ -9,9 +9,26 @@ const schedulechema = z
 	})
 	.strict();
 
-export const RestaurantSchema = z.object({
+export const restaurantSchema = z.object({
 	picture: z.string(),
 	name: z.string(),
 	address: z.string(),
 	schedules: z.array(schedulechema),
+});
+
+export const createProductSchema = z.object({
+	name: z.string(),
+	price: z.number(),
+	category: z.string(),
+	picture: z.string(),
+});
+
+export const updateProductSchema = createProductSchema.extend({
+	promotion: z
+		.object({
+			price: z.number(),
+			describe: z.string(),
+			schedules: z.array(schedulechema),
+		})
+		.strict(),
 });
