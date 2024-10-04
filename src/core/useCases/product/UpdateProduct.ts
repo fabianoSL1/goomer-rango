@@ -1,8 +1,9 @@
 import { Product } from "../../entities/Product";
 import type { ProductRepository } from "../../repositories/ProductRepository";
 import type { UpdateProductRequest } from "../../../dtos/UpdateProductRequest";
+import { Schedule } from "../../entities/Schedule";
 
-export class CreateProduct {
+export class UpdateProduct {
 	private readonly productRepository: ProductRepository;
 
 	constructor(productRepository: ProductRepository) {
@@ -28,7 +29,13 @@ export class CreateProduct {
 		);
 
 		if (data.promotion) {
-			product.setPromotion(data.promotion);
+			product.setPromotion({
+				...data.promotion,
+				schedules: data.promotion.schedules.map(
+					(schedule) =>
+						new Schedule(schedule.day, schedule.begin, schedule.end),
+				),
+			});
 		}
 
 		await this.productRepository.update(product);

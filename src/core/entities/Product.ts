@@ -7,17 +7,25 @@ export type Promotion = {
 };
 
 export class Product {
+	readonly id?: string;
 	picture: string;
 	name: string;
 	price: number;
 	category: string;
 	promotion?: Promotion;
 
-	constructor(name: string, price: number, category: string, picture: string) {
+	constructor(
+		name: string,
+		price: number,
+		category: string,
+		picture: string,
+		id?: string,
+	) {
 		this.name = name;
 		this.picture = picture;
 		this.price = price;
 		this.category = category;
+		this.id = id;
 	}
 
 	setPromotion(promotion: Promotion) {
@@ -28,7 +36,7 @@ export class Product {
 				);
 			}
 		}
-		
+
 		this.promotion = promotion;
 	}
 }
