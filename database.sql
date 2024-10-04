@@ -6,7 +6,6 @@ CREATE TABLE restaurants (
 );
 
 CREATE TABLE restaurant_schedules (
-    id SERIAL PRIMARY KEY,
     restaurant_id INT NOT NULL,
     week_day VARCHAR(15) NOT NULL,
     start_at VARCHAR(5),

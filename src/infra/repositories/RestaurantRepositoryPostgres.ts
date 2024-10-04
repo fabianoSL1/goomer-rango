@@ -116,8 +116,13 @@ export class RestaurantRepositoryPostgres implements RestaurantRepository {
 	}
 
 	async update(restaurant: Restaurant): Promise<void> {
-		await this.pool.query(
-			`
+		const client = await this.pool.connect();
+
+		try {
+			await client.query("BEGIN");
+
+			await client.query(
+				`
 			UPDATE restaurants
 			SET 
 				restaurant_name = $1,
@@ -125,10 +130,33 @@ export class RestaurantRepositoryPostgres implements RestaurantRepository {
 				picture = $3
 			WHERE id = $4
 		`,
-			[restaurant.name, restaurant.address, restaurant.picture, restaurant.id],
-		);
+				[
+					restaurant.name,
+					restaurant.address,
+					restaurant.picture,
+					restaurant.id,
+				],
+			);
 
-		// TODO: como fazer a atualização dos horarios?
+			await client.query("DELETE FROM restaurants WHERE id = $1", [
+				restaurant.id,
+			]);
+
+			for (const schedule of restaurant.schedules) {
+				await client.query(
+					"INSERT INTO restaurant_schedules (restaurant_id, week_day, start_at, end_at) VALUES ($1, $2, $3, $4)",
+					[restaurant.id, schedule.day, schedule.begin, schedule.end],
+				);
+			}
+
+			await client.query("COMMIT");
+			client.release();
+		} catch (e) {
+			await client.query("ROOLBACK");
+			client.release();
+
+			throw e;
+		}
 	}
 
 	async delete(restaurant: Restaurant): Promise<void> {
