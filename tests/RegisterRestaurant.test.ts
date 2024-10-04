@@ -1,5 +1,5 @@
 import { ScheduleDay } from "../src/core/entities/Schedule";
-import { RegisterRestaurant } from "../src/core/RegisterRestaurant";
+import { RegisterRestaurant } from "../src/core/useCases/restaurant/RegisterRestaurant";
 import type { CreateRestaurantRequest } from "../src/dtos/CreateRestaurantRequest";
 import { restaurantRepositoryMock } from "./mocks";
 

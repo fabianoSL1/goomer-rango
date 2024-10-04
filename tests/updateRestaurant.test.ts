@@ -1,6 +1,6 @@
 import { Restaurant } from "../src/core/entities/Restaurant";
 import { Schedule, ScheduleDay } from "../src/core/entities/Schedule";
-import { UpdateRestaurant } from "../src/core/UpdateRestaurant";
+import { UpdateRestaurant } from "../src/core/useCases/restaurant/UpdateRestaurant";
 import type { UpdateRestaurantRequest } from "../src/dtos/UpdateRestaurantRequest";
 import { restaurantRepositoryMock } from "./mocks";
 

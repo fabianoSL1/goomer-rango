@@ -1,7 +1,7 @@
-import type { UpdateRestaurantRequest } from "../dtos/UpdateRestaurantRequest";
-import type { Restaurant } from "./entities/Restaurant";
-import { Schedule } from "./entities/Schedule";
-import type { RestaurantRepository } from "./repositories/RestaurantRepository";
+import type { UpdateRestaurantRequest } from "../../../dtos/UpdateRestaurantRequest";
+import type { Restaurant } from "../../entities/Restaurant";
+import { Schedule } from "../../entities/Schedule";
+import type { RestaurantRepository } from "../../repositories/RestaurantRepository";
 
 export class UpdateRestaurant {
 	readonly restaurantRepository: RestaurantRepository;

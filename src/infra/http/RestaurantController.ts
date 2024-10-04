@@ -1,11 +1,11 @@
 import { Hono } from "hono";
 import { Pool } from "pg";
 import { RestaurantRepositoryPostgres } from "../repositories/RestaurantRepositoryPostgres";
-import { ListRestaurant } from "../../core/ListRestaurant";
-import { GetRestaurant } from "../../core/GetRestaurant";
-import { UpdateRestaurant } from "../../core/UpdateRestaurant";
-import { RegisterRestaurant } from "../../core/RegisterRestaurant";
-import { DestroyRestaurant } from "../../core/destroyRestaurant";
+import { ListRestaurant } from "../../core/useCases/restaurant/ListRestaurant";
+import { GetRestaurant } from "../../core/useCases/restaurant/GetRestaurant";
+import { UpdateRestaurant } from "../../core/useCases/restaurant/UpdateRestaurant";
+import { RegisterRestaurant } from "../../core/useCases/restaurant/RegisterRestaurant";
+import { DestroyRestaurant } from "../../core/useCases/restaurant/destroyRestaurant";
 import { zValidator } from "@hono/zod-validator";
 import { RestaurantSchema } from "./schemas";
 

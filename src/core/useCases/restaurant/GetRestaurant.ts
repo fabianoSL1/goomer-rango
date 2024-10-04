@@ -1,5 +1,5 @@
-import type { Restaurant } from "./entities/Restaurant";
-import type { RestaurantRepository } from "./repositories/RestaurantRepository";
+import type { Restaurant } from "../../entities/Restaurant";
+import type { RestaurantRepository } from "../../repositories/RestaurantRepository";
 
 export class GetRestaurant {
     readonly restaurantRepository: RestaurantRepository;
