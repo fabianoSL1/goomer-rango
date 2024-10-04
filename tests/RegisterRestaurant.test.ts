@@ -1,15 +1,7 @@
 import { ScheduleDay } from "../src/core/entities/Schedule";
 import { RegisterRestaurant } from "../src/core/RegisterRestaurant";
-import type { RestaurantRepository } from "../src/core/repositories/RestaurantRepository";
 import type { CreateRestaurantRequest } from "../src/dtos/CreateRestaurantRequest";
-
-const restaurantRepositoryMock: jest.Mocked<RestaurantRepository> = {
-	save: jest.fn(),
-	delete: jest.fn(),
-	get: jest.fn(),
-	list: jest.fn(),
-	update: jest.fn(),
-};
+import { restaurantRepositoryMock } from "./mocks";
 
 describe("Register restaurant use case", () => {
 	test("should except when has invalid schedule", async () => {
