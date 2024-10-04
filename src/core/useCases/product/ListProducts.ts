@@ -1,5 +1,5 @@
-import type { Product } from "./entities/Product";
-import type { ProductRepository } from "./repositories/ProductRepository";
+import type { Product } from "../../entities/Product";
+import type { ProductRepository } from "../../repositories/ProductRepository";
 
 export class ListProducts {
 	private readonly productRepository: ProductRepository;
