@@ -1,13 +1,15 @@
 import { Hono } from "hono";
 import { Pool } from "pg";
-import { RestaurantRepositoryPostgres } from "../repositories/RestaurantRepositoryPostgres";
+import { zValidator } from "@hono/zod-validator";
+
 import { ListRestaurant } from "../../core/useCases/restaurant/ListRestaurant";
 import { GetRestaurant } from "../../core/useCases/restaurant/GetRestaurant";
 import { UpdateRestaurant } from "../../core/useCases/restaurant/UpdateRestaurant";
 import { RegisterRestaurant } from "../../core/useCases/restaurant/RegisterRestaurant";
 import { DestroyRestaurant } from "../../core/useCases/restaurant/destroyRestaurant";
-import { zValidator } from "@hono/zod-validator";
-import { RestaurantSchema } from "./schemas";
+
+import { RestaurantRepositoryPostgres } from "../repositories/RestaurantRepositoryPostgres";
+import { restaurantSchema } from "./schemas";
 
 const restaurantController = new Hono();
 const restaurantRepository = new RestaurantRepositoryPostgres(new Pool());
@@ -29,7 +31,7 @@ restaurantController.get("/:id", async (ctx) => {
 
 restaurantController.patch(
 	"/:id",
-	zValidator("json", RestaurantSchema.partial()),
+	zValidator("json", restaurantSchema.partial()),
 	async (ctx) => {
 		const id = ctx.req.param("id");
 		const body = ctx.req.valid("json");
@@ -44,7 +46,7 @@ restaurantController.patch(
 
 restaurantController.post(
 	"/",
-	zValidator("json", RestaurantSchema.strict()),
+	zValidator("json", restaurantSchema.strict()),
 	async (ctx) => {
 		const body = ctx.req.valid("json");
 

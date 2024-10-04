@@ -34,7 +34,7 @@ export class RestaurantRepositoryPostgres implements RestaurantRepository {
 
 	private async getSchedules(restaurantId: string) {
 		const response = await this.pool.query(
-			"SELECT (week_day, start_at, end_at) WHERE restaurant_id = $1",
+			"SELECT (week_day, start_at, end_at) FROM restaurant_schedules WHERE restaurant_id = $1",
 			[restaurantId],
 		);
 
@@ -138,7 +138,7 @@ export class RestaurantRepositoryPostgres implements RestaurantRepository {
 				],
 			);
 
-			await client.query("DELETE FROM restaurants WHERE id = $1", [
+			await client.query("DELETE FROM restaurant_schedules WHERE restaurant_id = $1", [
 				restaurant.id,
 			]);
 
@@ -160,12 +160,8 @@ export class RestaurantRepositoryPostgres implements RestaurantRepository {
 	}
 
 	async delete(restaurant: Restaurant): Promise<void> {
-		await this.pool.query(
-			`
-			DELETE FROM restaurant_schedules
-			WHERE restaurant_id = $1
-		`,
-			[restaurant.id],
-		);
+		await this.pool.query("DELETE FROM restaurants WHERE id = $1", [
+			restaurant.id,
+		]);
 	}
 }
