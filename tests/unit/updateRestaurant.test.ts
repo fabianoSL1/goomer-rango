@@ -1,14 +1,14 @@
-import { Restaurant } from "../src/core/entities/Restaurant";
-import { Schedule, ScheduleDay } from "../src/core/entities/Schedule";
-import { UpdateRestaurant } from "../src/core/useCases/restaurant/UpdateRestaurant";
-import type { UpdateRestaurantRequest } from "../src/dtos/UpdateRestaurantRequest";
-import { restaurantRepositoryMock } from "./mocks";
+import { Restaurant } from "../../src/core/entities/Restaurant";
+import { ScheduleDay, Schedule } from "../../src/core/entities/Schedule";
+import { UpdateRestaurant } from "../../src/core/useCases/restaurant/UpdateRestaurant";
+import type { UpdateRestaurantRequest } from "../../src/dtos/UpdateRestaurantRequest";
+import { restaurantRepositoryMock } from "../mocks";
 
 describe("Update restaurant use case", () => {
 	afterEach(() => {
 		jest.clearAllMocks();
 	});
-	
+
 	test("should except when has invalid schedule", async () => {
 		const input: UpdateRestaurantRequest = {
 			schedules: [{ day: ScheduleDay.MONDAY, begin: "08:00", end: "08:14" }],
@@ -39,13 +39,15 @@ describe("Update restaurant use case", () => {
 
 		const expected = {
 			...restaurantMock,
-			schedules: input.schedules,
+			schedules: input.schedules?.map(
+				(schedule) => new Schedule(schedule.day, schedule.begin, schedule.end),
+			),
 		};
 
 		const registerRestaurant = new UpdateRestaurant(restaurantRepositoryMock);
 
 		const result = await registerRestaurant.execute("1", input);
 
-		expect(result).toBe(expected);
+		expect(result).toStrictEqual(expected);
 	});
 });

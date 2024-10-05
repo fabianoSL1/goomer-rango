@@ -53,7 +53,7 @@ restaurantController.post(
 		const registerRestaurant = new RegisterRestaurant(restaurantRepository);
 		const restaurant = await registerRestaurant.execute(body);
 
-		return ctx.json(restaurant);
+		return ctx.json(restaurant, 201);
 	},
 );
 

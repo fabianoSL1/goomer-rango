@@ -4,7 +4,7 @@ import { Hono } from "hono";
 import restaurantController from "./infra/http/RestaurantController";
 import { productController } from "./infra/http/ProductController";
 
-const app = new Hono();
+export const app = new Hono();
 
 app.route("/restaurants", restaurantController);
 app.route("/", productController);

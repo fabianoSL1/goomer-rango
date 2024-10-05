@@ -1,7 +1,8 @@
-import { ScheduleDay } from "../src/core/entities/Schedule";
-import { RegisterRestaurant } from "../src/core/useCases/restaurant/RegisterRestaurant";
-import type { CreateRestaurantRequest } from "../src/dtos/CreateRestaurantRequest";
-import { restaurantRepositoryMock } from "./mocks";
+import { ScheduleDay } from "../../src/core/entities/Schedule";
+import { RegisterRestaurant } from "../../src/core/useCases/restaurant/RegisterRestaurant";
+import type { CreateRestaurantRequest } from "../../src/dtos/CreateRestaurantRequest";
+import { restaurantRepositoryMock } from "../mocks";
+
 
 describe("Register restaurant use case", () => {
 	test("should except when has invalid schedule", async () => {
