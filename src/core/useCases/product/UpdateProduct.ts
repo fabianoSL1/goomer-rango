@@ -16,26 +16,37 @@ export class UpdateProduct {
 	): Promise<Product> {
 		const stored = await this.productRepository.get(productId);
 
-		const data = {
+		const toProduct = {
 			...stored,
 			...request,
 		};
 
 		const product = new Product(
-			data.name,
-			data.price,
-			data.category,
-			data.picture,
+			toProduct.name,
+			toProduct.price,
+			toProduct.category,
+			toProduct.picture,
+			toProduct.id,
 		);
 
-		if (data.promotion) {
-			product.setPromotion({
-				...data.promotion,
-				schedules: data.promotion.schedules.map(
-					(schedule) =>
-						new Schedule(schedule.day, schedule.begin, schedule.end),
-				),
-			});
+		if (toProduct.promotion) {
+			const schedules = [];
+
+			for (const schedule of toProduct.promotion.schedules) {
+				const _schedule = new Schedule(
+					schedule.day,
+					schedule.begin,
+					schedule.end,
+				);
+
+				if (!_schedule.isValidInterval()) {
+					throw new Error("")
+				}
+
+				schedules.push(_schedule);
+			}
+
+			product.setPromotion({...toProduct.promotion, schedules});
 		}
 
 		await this.productRepository.update(product);
