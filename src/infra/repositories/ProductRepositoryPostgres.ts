@@ -14,15 +14,15 @@ export class ProductRepositoryPostgres implements ProductRepository {
 		const response = await this.pool.query(
 			`SELECT a.*, b.id as promotion_id, b.price as promotion_price, b.product_describe 
                 FROM products a 
-                LEFT JOIN promotion b 
+                LEFT JOIN promotions b 
                     ON a.id = b.product_id 
-                WHERE id = $1
+                WHERE a.id = $1
             `,
 			[productId],
 		);
 
 		const [stored] = response.rows;
-
+        
 		if (!stored) {
 			throw new Error(`product with id ${productId} not fount.`);
 		}
@@ -36,6 +36,7 @@ export class ProductRepositoryPostgres implements ProductRepository {
 		);
 
 		if (stored.promotion_id) {
+            
 			product.setPromotion({
 				price: stored.promotion_price,
 				describe: stored.promotion_describe,
@@ -48,10 +49,10 @@ export class ProductRepositoryPostgres implements ProductRepository {
 
 	private async getSchedules(promotionId: string) {
 		const response = await this.pool.query(
-			"SELECT (week_day, start_at, end_at) FROM promotion_schedules WHERE restaurant_id = $1",
+			"SELECT week_day, start_at, end_at FROM promotion_schedules WHERE promotion_id = $1",
 			[promotionId],
 		);
-
+        
 		return response.rows.map(
 			(scheduleStored) =>
 				new Schedule(
@@ -113,8 +114,8 @@ export class ProductRepositoryPostgres implements ProductRepository {
 
 	async save(product: Product, restaurantId: string): Promise<Product> {
 		const result = await this.pool.query(
-			"INSERT INTO products (restaurant_id, product_name, price, category) VALUES ($1, $2, $3, $4)",
-			[restaurantId, product.name, product.price, product.category],
+			"INSERT INTO products (restaurant_id, product_name, price, category, picture) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+			[restaurantId, product.name, product.price, product.category, product.picture],
 		);
 
 		const { id } = result.rows[0];
@@ -166,9 +167,9 @@ export class ProductRepositoryPostgres implements ProductRepository {
 			await client.query("COMMIT");
 			client.release();
 		} catch (e) {
-			await client.query("ROOLBACK");
+			await client.query("ROLLBACK");
 			client.release();
-
+            
 			throw e;
 		}
 	}

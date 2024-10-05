@@ -20,8 +20,9 @@ CREATE TABLE restaurant_schedules (
 CREATE TABLE products (
       id SERIAL PRIMARY KEY,
       restaurant_id INT NOT NULL,
-      product_name VARCHAR (255) NOT NULL,
       price FLOAT NOT NULL,
+      product_name VARCHAR (255) NOT NULL,
+      picture VARCHAR (255) NOT NULL,
       category VARCHAR(40) NOT NULL,
 
       FOREIGN KEY (restaurant_id) REFERENCES restaurants (id)

@@ -109,7 +109,7 @@ export class RestaurantRepositoryPostgres implements RestaurantRepository {
 				restaurantId,
 			);
 		} catch (e) {
-			await client.query("ROOLBACK");
+			await client.query("ROLLBACK");
 			client.release();
 			throw e;
 		}
@@ -152,7 +152,7 @@ export class RestaurantRepositoryPostgres implements RestaurantRepository {
 			await client.query("COMMIT");
 			client.release();
 		} catch (e) {
-			await client.query("ROOLBACK");
+			await client.query("ROLLBACK");
 			client.release();
 
 			throw e;

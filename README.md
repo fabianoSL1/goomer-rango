@@ -7,10 +7,16 @@ API Restful para gerenciar restaurantes e produtos.
 - NodeJS
 
 ## dev
-```
+
+```bash
 npm install
 export $(cat .env.default)
 docker compose up -d
+```
+
+Execute a query `database.sql` no banco de dados.
+
+```bash
 npm run dev
 ```
 
