@@ -1,6 +1,7 @@
 import type { CreateRestaurantRequest } from "../../../dtos/CreateRestaurantRequest";
 import { Restaurant } from "../../entities/Restaurant";
 import { Schedule } from "../../entities/Schedule";
+import { CoreExcption } from "../../exceptions/CoreException";
 import type { RestaurantRepository } from "../../repositories/RestaurantRepository";
 
 export class RegisterRestaurant {
@@ -15,7 +16,7 @@ export class RegisterRestaurant {
 			const schedule = new Schedule(item.day, item.begin, item.end);
 
 			if (!schedule.isValidInterval()) {
-				throw new Error(
+				throw new CoreExcption(
 					`interval ${item.begin} - ${item.end} on ${item.day} is not valid.`,
 				);
 			}

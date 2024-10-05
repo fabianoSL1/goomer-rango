@@ -1,4 +1,4 @@
-import { app } from "../../src";
+import { app } from "../../src/app";
 
 describe("Testes de integração para restaurante", () => {
 	test("POST /restaurants", async () => {
@@ -20,5 +20,22 @@ describe("Testes de integração para restaurante", () => {
 		expect(response.status).toBe(201);
 		expect(json.id).toBeDefined();
 		expect(json.schedules).toHaveLength(1);
+	});
+
+    test("POST /restaurants", async () => {
+		const response = await app.request("/restaurants", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				picture: "defante.png",
+				name: "rango brabo",
+				address: "não sei",
+				schedules: [{ day: "saturday", begin: "20:00", end: "20:10" }],
+			}),
+		});
+
+		expect(response.status).toBe(400);
 	});
 });
